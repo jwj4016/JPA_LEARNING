@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jpa?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
+  jpa:
+    show-sql: true
+    database: mysql
+#    hibernate:
+#      ddl-auto: create
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
