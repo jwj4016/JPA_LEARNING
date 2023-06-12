@@ -8,7 +8,13 @@ spring:
     show-sql: true
     database: mysql
 #    hibernate:
-#      ddl-auto: create
+#      ddl-auto: create         -> 기존 테이블 삭제하고 새로 생성. DROP + CREATE
+#                create-drop    -> 앱 종료 시 생성한 DDL 제거. DROP + CREATE + DROP
+#                update         -> DB 테이블과 entity 매핑정보 비교 후 변경 사항만 수정.
+#                validate       -> DB 테이블과 entity 매핑정보 비교 후 차이가 있으면 경고 후 앱 실행하지 않음. DDL 수행하지 않음.
+#                none           -> 자동 생성 기능 미사용. ddl-auto 속성 자체 삭제해도 해당 기능 미사용.
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create
+
