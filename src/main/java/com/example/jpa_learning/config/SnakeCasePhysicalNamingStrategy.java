@@ -7,27 +7,27 @@ import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 public class SnakeCasePhysicalNamingStrategy implements PhysicalNamingStrategy {
     @Override
     public Identifier toPhysicalCatalogName(Identifier logicalName, JdbcEnvironment jdbcEnvironment) {
-        return null;
+        return convertToSnakeCase(logicalName);
     }
 
     @Override
     public Identifier toPhysicalSchemaName(Identifier logicalName, JdbcEnvironment jdbcEnvironment) {
-        return null;
+        return convertToSnakeCase(logicalName);
     }
 
     @Override
     public Identifier toPhysicalTableName(Identifier logicalName, JdbcEnvironment jdbcEnvironment) {
-        return null;
+        return convertToSnakeCase(logicalName);
     }
 
     @Override
     public Identifier toPhysicalSequenceName(Identifier logicalName, JdbcEnvironment jdbcEnvironment) {
-        return null;
+        return convertToSnakeCase(logicalName);
     }
 
     @Override
     public Identifier toPhysicalColumnName(Identifier logicalName, JdbcEnvironment jdbcEnvironment) {
-        return null;
+        return convertToSnakeCase(logicalName);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SnakeCasePhysicalNamingStrategy implements PhysicalNamingStrategy {
             return null;
         }
         String name = identifier.getText();
-        String newName = name.replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
+        String newName = name.replaceAll("([a-z])([A-Z])", "$1_$2").toUpperCase();
         return Identifier.toIdentifier(newName);
     }
 }

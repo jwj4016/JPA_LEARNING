@@ -1,6 +1,7 @@
 package com.example.jpa_learning;
 
 import com.example.jpa_learning.entity.Member;
+import com.example.jpa_learning.entity.Team;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -46,15 +47,24 @@ public class EntityManagerTest {
         //엔티티 매니저는 데이터 변경 시 트랜잭션을 시작해야 한다.
         transaction.begin();    //[트랜잭션] 시작
 
+        Team team1 = new Team();
+        team1.setName("팀1");
+
+        entityManager.persist(team1);
+
         Member memberA = new Member();
-        memberA.setId("memberA");
+//        memberA.setId("memberA");
         memberA.setUsername("A");
         memberA.setAge(1);
+        memberA.setTeam(team1);
+
+
 
         Member memberB = new Member();
-        memberB.setId("memberB");
+//        memberB.setId("memberB");
         memberB.setUsername("B");
         memberB.setAge(32);
+        memberB.setTeam(team1);
 
         entityManager.persist(memberA);
         entityManager.persist(memberB);
@@ -77,7 +87,7 @@ public class EntityManagerTest {
     private static void logic(EntityManager entityManager) {
         String id = "jwj4016";
         Member member = new Member();
-        member.setId(id);
+//        member.setId(id);
         member.setUsername("우쨔");
         member.setAge(35);
 
@@ -124,7 +134,7 @@ public class EntityManagerTest {
         tx1.begin();
 
         Member member = new Member();
-        member.setId(id);
+//        member.setId(id);
         member.setUsername(username);
         member.setAge(10);
 

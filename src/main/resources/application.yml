@@ -15,6 +15,7 @@ spring:
 #                none           -> 자동 생성 기능 미사용. ddl-auto 속성 자체 삭제해도 해당 기능 미사용.
     hibernate:
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: create
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        physical-strategy: com.example.jpa_learning.config.SnakeCasePhysicalNamingStrategy
+      ddl-auto: none
 

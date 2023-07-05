@@ -7,7 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 //'김영한'님의 '자바 ORM 표준 JPA 프로그래밍' 정리.
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,7 +38,7 @@ public class Member {
     //기본키 할당 방식
     //  1. 직접할당 : 기본 키를 앱에서 직접 할당.
     //  2. 자동생성 : 대리 키 사용.
-    //      - IDENTITY : 기본키 생서을 데이터베이스에 위임.
+    //      - IDENTITY : 기본키 생성을 데이터베이스에 위임.
     //          - MySQL, PostgreSQL, SQL Server, DB2 등에서 주로 사용.
     //          - MySQL의 경우 AUTO_INCREMENT 기능을 사용해 기본키 자동 생성.
     //          - 데이터를 DB에 INSERT한 후에 기본키 조회 가능.
@@ -44,11 +46,11 @@ public class Member {
     //      - SEQUENCE : 데이터베이스 시퀀스를 사용해 기본키를 할당한다.
     //          - 오라클, PostgreSQL, DB2, H2 에서 사용 가능.
     //          - @SequenceGenerator(
-    //                name = "BOARD_SEQ_GENERATOR"  //식별자 생성기 이름
-    //              , sequenceName = "BOARD_SEQ"    //매핑할 데이터베이스 시퀀스 이름.
-    //              , initialValue = 1              //시퀀스 생성시 처음 값을 설정한다.
-    //              , allocationSize = 1            //시퀀스 호출 시 증가하는 시퀀스 값.(성능 최적화에 사용). default : 50
-    //              , catalog, schema               //DB catalog, schema 이름.
+    //                name = "BOARD_SEQ_GENERATOR"      //식별자 생성기 이름
+    //              , sequenceName = "BOARD_SEQ"        //매핑할 데이터베이스 시퀀스 이름.
+    //              , initialValue = 1                  //시퀀스 생성시 처음 값을 설정한다.
+    //              , allocationSize = 1                //시퀀스 호출 시 증가하는 시퀀스 값.(성능 최적화에 사용). default : 50
+    //              , catalog, schema                   //DB catalog, schema 이름.
     //            ) //클래스에 적용해도 되는 어노테이션.
     //          - @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")
     //          - persist()호출 시 DB 시퀀스로 식별자 조회 후 엔티티에 할당한다. 이후 엔티티는 영속성 컨텍스트에 저장되고, 트랜잭션 커밋 후 플러시가 일어나면서 db에 반영된다.
@@ -74,8 +76,8 @@ public class Member {
     //  1. @Column : 컬럼을 매핑.
     //      - @Column의 속성.
     //          - name = ""                             //필드와 매핑할 테이블 컬럼 명.
-    //          - insertable = true/false               //엔티티 저장 시 이 필드도 같이 저장. fasle 일 겨웅 db 저장하지 않음. false 는 읽기 전용일 경우 사용. default = true
-    //          - updatable = true/false                //엔티티 수정 시 이 필드도 같이 수정. fasle 일 겨웅 db 저장하지 않음. false 는 읽기 전용일 경우 사용. default = true
+    //          - insertable = true/false               //엔티티 저장 시 이 필드도 같이 저장. fasle 일 경우 db 저장하지 않음. false 는 읽기 전용일 경우 사용. default = true
+    //          - updatable = true/false                //엔티티 수정 시 이 필드도 같이 수정. fasle 일 경우 db 저장하지 않음. false 는 읽기 전용일 경우 사용. default = true
     //          - table                                 //하나의 엔티티를 두 개 이상의 테이블과 매핑시 사용.
     //          - nullable(DDL)                         //null 값의 허용 여부 설정. false이면 DDL 생성 시 not null 제약조건 붙음. default = true
     //          - unique(DDL)                           //@Table의 uniqueConstraints와 같지만 한 컬럼에 간단히 유니크 제약조건 걸 때 사용. 만약 두 컬럼 이상을 사용해 유니크 제약조건 사용하려면 클래스 레벨엣
@@ -116,23 +118,98 @@ public class Member {
     //      - 필드 접근 : @Access(AccessType.FIELD)으로 지정. 필드에 직접 접근. 필드 접근 권한이 private여도 접근 가능. @Id가 필드에 지정된다.
     //      - 프로퍼티 접근 : @Access(AccessType.PROPERTY)로 지정. 접근자(getter) 사용. @Id가 프로퍼티에 있다.
     //      - 필드 접근과 프로퍼티 접근을 함께 사용 가능.
-    private String id;
+    private Long id;
 
-    @Column(name = "NAME", nullable = false, length = 10)
+    @Column(name = "NAME")
+//            , nullable = false, length = 10)
     private String username;
 
     private Integer age;
 
     //다양한 매핑 사용을 위해 컬럼 추가.
-    @Enumerated(EnumType.STRING)    //ENUM 사용시 매핑.
-    private RoleType roleType;      //일반 회원과 관리자 구분.
+    @Enumerated(EnumType.STRING)        //ENUM 사용시 매핑.
+    private RoleType roleType;          //일반 회원과 관리자 구분.
 
     @Temporal(TemporalType.TIMESTAMP)   //자바의 날짜타입과 매핑.
-    private Date createDate;        //회원 가입일.
+    private Date createDate;            //회원 가입일.
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;  //회원 수정일.
+    private Date lastModifiedDate;      //회원 수정일.
 
-    @Lob    //길이 제한이 없기 때문에 VARCHAR 대신 CLOB 타입이 필요하다. @Lob 사용 시 CLOB, BLOB 타입을 매핑할 수 있다.
-    private String description;     //회원을 설명할 수 있는 필드. 길이제한 없음.
+    @Lob                                //길이 제한이 없기 때문에 VARCHAR 대신 CLOB 타입이 필요하다. @Lob 사용 시 CLOB, BLOB 타입을 매핑할 수 있다.
+    private String description;         //회원을 설명할 수 있는 필드. 길이제한 없음.
+
+    //연관관계 매핑
+    @ManyToOne                          //다대일(N:1) 관계. 필수로 사용해야 한다.
+    //@ManyToOne
+    //  - 다대일(@ManyToOne)과 비슷한 일대일(@OneToOne) 관계도 있다. 반대편이 일대다 관계면 다대일 사용. 반대편 일대일 관계면 일대일 사용.
+    //  - @ManyToOne 의 속성.
+    //      - optional                                  //false로 설정하면 연관된 엔티티가 항상 있어야 한다. default = true
+    //      - fetch                                     //글로벌 페치 전략을 설정한다. @ManyToOne=FetchType.EAGER, @OneToMany=FetchType.LAZY
+    //      - cascade                                   //영속성 전이 기능 사용.
+    //      - targetEntity                              //연관된 엔티티의 타입 정보를 설정한다. 이 기능은 거의 미사용. 컬렉션 사용해도 제네릭으로 타입 정보를 알 수 있다.
+    @JoinColumn(name = "TEAM_ID")       //외래키를 매핑할 때 사용. 생략 가능하다.
+    //@JoinColumn
+    //  - @JoinColumn 의 속성.
+    //      - name :                                    //매핑할 외래 키 이름. default = 필드명 + _ + 참조하는 테이블의 기본키 컬럼명.
+    //      - referencedColumnName                      //외래키가 참조하는 대상 테이블의 컬럼속성은 테이블 생성시에만 사용.
+    //      - unique, nullable, insertable,명. defualt = 참조하는 테이블의 기본키 컬럼명.
+    //    //      - foreignKey(DDL)                           //외래키 제약조건을 직접 지정 가능. 이
+    //        updatable, columnDefinition, table        //@Column의 속성과 같다.
+    private Team team;                  //팀의 참조를 보관.
+
+
+    //setTeam하나로 양방향 연관관계 모두 설정하도록 수정.
+    public void setTeam(Team team) {
+
+        //기존 팀이 있을 경우 기존 팀과 회원의 연관관계 제거.
+        //이 코드가 없어도 테이블의 외래키는 정상적으로 반영된다.
+        //하지만, 관계를 member1 -> teamA 에서 member1 -> teamB로 변경한 후 영속성 컨텍스트가 살아있을 경우
+        //teamA.getMembers() 호출 시 member1이 반환되는 문제점이 있다.
+        if (this.team != null) {
+            this.team.getMembers().remove(this);
+        }
+        this.team = team;
+        team.getMembers().add(this);
+    }
+
+    //@OneToOne
+    //  - 테이블 관계에서 일대일 관계는 테이블 둘 중 어느 곳에나 외래키를 가질 수 있다.
+    //  - 주테이블에 외래키 있을 경우
+    //      - 외래 키를 객체 참조와 비슷하게 사용할 수 있다. 객체지향 개발자들이 선호.
+    //      - 주테이블에 외래키가 있으므로 주테이블만 확인해도 대상 테이블과 연관관게가 있는지 확인 가능.
+    //  - 대상 테이블에 외래키 있을 경우
+    //      - 전통적인 DB 개발자들은 대상 테이블에 외래키를 두는 것을 선호.
+    //      - 일대일에서 일대다로 변경될 때 테이블 구조를 그대로 유지할 수 있다.
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")     //주테이블에 외래키 있을 경우. 연관 관계의 주인.
+    //@OneToOne(mappedBy = "member")    //대상테이블에 외래키 있을 경우.
+    private Locker locker;
+
+    //RDB에서는 정규화된 테이블 2개로 다대다 관계를 표현할 수 없다.
+    //따라서 다대다 관계를 일대다, 다대일 관계로 풀어내는 연결 테이블을 사용.
+    //객체는 객체 2개로 다대다 관계 만들기 가능.(컬렉션 이용)
+    @ManyToMany
+    @JoinTable(name = "MEMBER_PRODUCT"                                  //@JoinTable.name : 연결 테이블 지정.
+            , joinColumns = @JoinColumn(name = "MEMBER_ID")             //@JoinTable.joinColumns : 현재 방향인 회원과 매핑할 조인 컬럼 정보 지정.
+            , inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
+    //@JoinTable.inverseJoinColumns : 반대 방향인 상품과 매핑할 조인 컬럼 정보 지정.
+    private List<Product> products = new ArrayList<Product>();
+
+    //양방향 연관관계를 위한 편의 메소드 추간.
+    public void addProduct(Product product) {
+        this.products.add(product);
+        product.getMembers().add(this);
+    }
+
+    //역방향. 다대다 양방향 연관관계 한계 극복을 위한 연결 엔티티 사용.
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts;
+
+
+    //다대다:새로운 기본키를 사용. 기존 MEMBER_PRODUCT 테이블이 아닌 ORDER 테이블을 사용.
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+
+
 }
