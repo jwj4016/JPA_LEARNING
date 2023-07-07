@@ -30,11 +30,18 @@ import java.util.List;
 //      - name : 매핑할 테이블 이름.
 //      - catalog : catalog 기능이 있는 db에서 catalog를 매핑한다.
 //      - schema : schema 기능이 있는 db에서 schema를 매핑한다.
-//                 DDL 생성 시에 유니크 제약조건을 만든다. 2개 이상의 복합 유니크 제약조건도 만들 수 있음.
-public class Member {
-    @Id //테이블의 primary key와 매핑. 식별자 필드라고 함.
-    @Column(name = "ID")    //컬럼과 필드를 매핑. 해당 어노테이션 없으면 필드명을 사용해 컬럼명을 매핑함. 대소문자 구분하는 db 일 경우 명시해야함.
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//                 DDL 생성
+//                 시에 유니크 제약조건을 만든다. 2개 이상의 복합 유니크 제약조건도 만들 수 있음.
+//@AttributeOverride, @AttributeOverrides
+//  - 부모로부터 물려받은 매핑 정보를 재정의.
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "MEMBER_ID"))
+        , @AttributeOverride(name = "name", column = @Column(name = "MEMBER_NAME"))
+})
+public class Member extends BaseEntity{
+    //@Id //테이블의 primary key와 매핑. 식별자 필드라고 함.
+    //@Column(name = "ID")    //컬럼과 필드를 매핑. 해당 어노테이션 없으면 필드명을 사용해 컬럼명을 매핑함. 대소문자 구분하는 db 일 경우 명시해야함.
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     //기본키 할당 방식
     //  1. 직접할당 : 기본 키를 앱에서 직접 할당.
     //  2. 자동생성 : 대리 키 사용.
@@ -118,7 +125,7 @@ public class Member {
     //      - 필드 접근 : @Access(AccessType.FIELD)으로 지정. 필드에 직접 접근. 필드 접근 권한이 private여도 접근 가능. @Id가 필드에 지정된다.
     //      - 프로퍼티 접근 : @Access(AccessType.PROPERTY)로 지정. 접근자(getter) 사용. @Id가 프로퍼티에 있다.
     //      - 필드 접근과 프로퍼티 접근을 함께 사용 가능.
-    private Long id;
+    //private Long id;  //@MappedSuperclass로 공통 속성 상속.
 
     @Column(name = "NAME")
 //            , nullable = false, length = 10)
