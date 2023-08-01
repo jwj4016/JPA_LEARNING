@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "PARENT_ENTITY", schema = "jpa")
-@Entity
+//@Entity
 //@IdClass 사용 시 필요 조건.
 //  - 식별자 클래스의 속성명과 엔티티에서 사용하는 식별자 속성명이 동일해야 한다.
 //    (ParentEntity.id1 == ParentId.id1 && ParentEntity.id2 == ParentId.id2)

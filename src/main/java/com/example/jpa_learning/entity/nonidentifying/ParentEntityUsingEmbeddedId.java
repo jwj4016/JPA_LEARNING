@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "PARENT_ENTITY", schema = "jpa")
-@Entity
+//@Entity
 public class ParentEntityUsingEmbeddedId {
     @EmbeddedId
     private ParentIdUsingEmbeddedId id;

@@ -2,7 +2,7 @@ package com.example.jpa_learning.entity.identifying.idclass;
 
 import jakarta.persistence.*;
 
-@Entity
+//@Entity
 @IdClass(GrandChildId.class)
 public class GrandChildEntityUsingIdClass {
     @Id

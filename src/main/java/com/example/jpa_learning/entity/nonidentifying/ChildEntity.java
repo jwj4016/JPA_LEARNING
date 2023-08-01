@@ -2,7 +2,7 @@ package com.example.jpa_learning.entity.nonidentifying;
 
 import jakarta.persistence.*;
 
-@Entity
+//@Entity
 public class ChildEntity {
     @Id
     private String id;

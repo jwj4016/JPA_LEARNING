@@ -3,7 +3,7 @@ package com.example.jpa_learning.entity.jointable.onetoone;
 import jakarta.persistence.*;
 
 @Table(name = "PARENT_ONE_TO_ONE_JOIN_TABLE", schema = "jpa")
-@Entity
+//@Entity
 public class ParentEntity {
     @Id @GeneratedValue
     @Column(name = "PARENT_ID")

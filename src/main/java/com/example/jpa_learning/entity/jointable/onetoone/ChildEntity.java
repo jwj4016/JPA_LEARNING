@@ -2,7 +2,7 @@ package com.example.jpa_learning.entity.jointable.onetoone;
 
 import jakarta.persistence.*;
 
-@Entity
+//@Entity
 public class ChildEntity {
     @Id @GeneratedValue
     @Column(name = "CHILD_ID")

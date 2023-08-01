@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @IdClass(ChildId.class)
 @Table(name = "CHILD_ENTITY", schema = "jpa")
-@Entity
+//@Entity
 public class ChildEntityUsingIdClass {
     @Id
     @JoinColumn(name = "CHILD_ID")

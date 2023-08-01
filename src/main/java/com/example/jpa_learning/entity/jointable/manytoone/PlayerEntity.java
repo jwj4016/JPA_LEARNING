@@ -2,7 +2,7 @@ package com.example.jpa_learning.entity.jointable.manytoone;
 
 import jakarta.persistence.*;
 
-@Entity
+//@Entity
 public class PlayerEntity {      //선수
     @Id @GeneratedValue
     @Column(name = "PLAYER_ID")

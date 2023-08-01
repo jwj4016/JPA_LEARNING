@@ -2,7 +2,7 @@ package com.example.jpa_learning.entity.identifying.embeddedid;
 
 import jakarta.persistence.*;
 
-@Entity
+//@Entity
 public class ChildEntityUsingEmbeddedId {
 
     @EmbeddedId

@@ -7,7 +7,7 @@ import lombok.Setter;
 //부모
 @Setter
 @Getter
-@Entity
+//@Entity
 public class Board {
     @Id @GeneratedValue
     @Column(name = "BOARD_ID")

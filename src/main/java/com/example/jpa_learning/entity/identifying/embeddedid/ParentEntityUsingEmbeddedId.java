@@ -5,7 +5,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+//@Entity
 public class ParentEntityUsingEmbeddedId {
 
     @Id @Column(name = "PARENT_ID")

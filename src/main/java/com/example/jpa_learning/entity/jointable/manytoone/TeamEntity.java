@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //다대일 (선수 -> 팀)
-@Entity
+//@Entity
 public class TeamEntity {     //팀
     @Id
     @GeneratedValue

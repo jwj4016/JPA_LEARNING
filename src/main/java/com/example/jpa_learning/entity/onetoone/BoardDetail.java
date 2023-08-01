@@ -7,7 +7,7 @@ import lombok.Setter;
 //자식
 @Getter
 @Setter
-@Entity
+//@Entity
 public class BoardDetail {
 
     @Id
