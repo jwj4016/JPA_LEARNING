@@ -43,6 +43,16 @@ public class Team {
     //mappedBy 속성을 이용해 연관관계의 주인을 지정한다. 즉, mappedBy가 있으면 연관관계의 주인이 아니다.
     //연관관계의 주인은 테이블에 외래키가 있는 곳으로 정해야한다.(Member)
     //연관관계의 주인이 아닌 반대편은 읽기만 가능하고 외래키를 변경하지는 못한다.
-    @OneToMany(mappedBy = "team")
+    //cascade = CascadeType.PERSIST 옵션 설정할 경우, 부모와 자식 엔티티를 한번에 영속화 가능하다.
+    //orphanRemoval = true 옵션 설정할 경우, 컬렉션에서 제거한 엔티티는 자동으로 삭제된다.
+    //  ex) Team team1 = em.find(Team.class, id);
+    //      team1.getMembers().remove(0);       //자식 엔티티를 컬렉션에서 제거한다.
+    //      team1.getMembers().clear();         //모든 자식 엔티티를 제거하려면 clear()로 컬렉션을 비우면 된다.
+    //orphanRemoval은 @OneToOne, @OneToMany에만 사용할 수 있다.
+    //CascadeType.ALL + orphanRemoval = true를 동시에 사용할 경우. ->
+    //  ex) Team team1 = em.find(Team.class, id);
+    //      team1.addMember(member1);
+    //      team1.getMembers().remove(removeObject);
+    @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Member> members = new ArrayList<Member>();
 }

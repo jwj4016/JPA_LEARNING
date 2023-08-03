@@ -11,8 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(schema = "jpa", name = "ORDER")
-public class Order {
+@Table(schema = "jpa", name = "ORDERS")
+public class Orders {
     @Id
     @GeneratedValue
     @Column(name = "ORDER_ID")

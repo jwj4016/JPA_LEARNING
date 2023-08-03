@@ -4,7 +4,6 @@ import com.example.jpa_learning.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 //'김영한'님의 '자바 ORM 표준 JPA 프로그래밍' 정리.
 import java.util.ArrayList;
@@ -148,6 +147,7 @@ public class Member extends BaseEntity{
 
     //연관관계 매핑
     @ManyToOne                          //다대일(N:1) 관계. 필수로 사용해야 한다.
+            (fetch = FetchType.EAGER)
     //@ManyToOne
     //  - 다대일(@ManyToOne)과 비슷한 일대일(@OneToOne) 관계도 있다. 반대편이 일대다 관계면 다대일 사용. 반대편 일대일 관계면 일대일 사용.
     //  - @ManyToOne 의 속성.
@@ -155,6 +155,19 @@ public class Member extends BaseEntity{
     //      - fetch                                     //글로벌 페치 전략을 설정한다. @ManyToOne=FetchType.EAGER, @OneToMany=FetchType.LAZY
     //      - cascade                                   //영속성 전이 기능 사용.
     //      - targetEntity                              //연관된 엔티티의 타입 정보를 설정한다. 이 기능은 거의 미사용. 컬렉션 사용해도 제네릭으로 타입 정보를 알 수 있다.
+    //@ManyToOne(fetch = FetchType.EAGER)
+    //  - 즉시 로딩. 엔티티 조회 시 연관된 엔티티도 함께 조회.
+    //  - 하이버네이트는 가능하면 SQL 조인을 사용해 한번에 조회한다.
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //  - 지연 로딩. 연관된 엔티티 실제 사용 시 조회.
+    //  - 프록시를 실제 사용 시 초기화하면서 데이터베이스 조회한다.
+    //참고. NULL 제약조건과 JPA 조인 전략.
+    //  - @JoinColumn(nullable = false) 조건이 있으면 inner join이 아닌 left join 사용한다.
+    //  - @ManyToOne(fetch = FetchType.EAGER, optional = false) 조건이 있으면 inner join이 아닌 left join 사용한다.
+    //  - inner join이 outer join 보다 성능과 최적화에 유리함.(?)
+    //Fetch 속성의 기본 설정값.
+    //  - @ManyToOne, @OneToOne : 즉시 로딩(FetchType.EAGER)
+    //  - @OneToMany, @ManyToMany : 지연 로딩(FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")       //외래키를 매핑할 때 사용. 생략 가능하다.
     //@JoinColumn
     //  - @JoinColumn 의 속성.
@@ -215,8 +228,8 @@ public class Member extends BaseEntity{
 
 
     //다대다:새로운 기본키를 사용. 기존 MEMBER_PRODUCT 테이블이 아닌 ORDER 테이블을 사용.
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Orders> orders = new ArrayList<>();
 
 
 }
