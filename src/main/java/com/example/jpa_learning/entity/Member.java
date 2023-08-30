@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 //'김영한'님의 '자바 ORM 표준 JPA 프로그래밍' 정리.
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -37,7 +35,7 @@ import java.util.List;
         @AttributeOverride(name = "id", column = @Column(name = "MEMBER_ID"))
         , @AttributeOverride(name = "name", column = @Column(name = "MEMBER_NAME"))
 })
-public class Member extends BaseEntity{
+public class Member extends BaseEntity {
     //@Id //테이블의 primary key와 매핑. 식별자 필드라고 함.
     //@Column(name = "ID")    //컬럼과 필드를 매핑. 해당 어노테이션 없으면 필드명을 사용해 컬럼명을 매핑함. 대소문자 구분하는 db 일 경우 명시해야함.
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -232,4 +230,40 @@ public class Member extends BaseEntity{
     private List<Orders> orders = new ArrayList<>();
 
 
+    //멤버의 집주소 표현.
+    //private String city;
+    //private String street;
+    //private String zipcode;
+    @Embedded   //값 타입을 사용하는 곳에 표시
+            Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "COMPANY_CITY"))
+            , @AttributeOverride(name = "street", column = @Column(name = "COMPANY_STREET"))
+            , @AttributeOverride(name = "zipcode", column = @Column(name = "COMPANY_ZIPCODE"))
+    })
+    Address companyAddress;
+
+    //근무기간
+    //@Temporal(TemporalType.DATE)
+    //Date startDate;
+    //@Temporal(TemporalType.DATE)
+    //Date endDate;
+    @Embedded   //값 타입을 사용하는 곳에 표시
+            Period workPeriod;
+
+    @Embedded
+    PhoneNumber phoneNumber;
+
+
+    //값타입 컬렉션
+    @ElementCollection(fetch = FetchType.LAZY)      //지연로딩 가능.
+    @CollectionTable(name = "FAVORITE_FOODS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    private List<Address> addressHistory = new ArrayList<>();
 }
