@@ -35,6 +35,26 @@ import java.util.*;
         @AttributeOverride(name = "id", column = @Column(name = "MEMBER_ID"))
         , @AttributeOverride(name = "name", column = @Column(name = "MEMBER_NAME"))
 })
+//네임드 쿼리.
+//xml과 어노테이션에 같은 설정이 있으면 xml이 우선권을 가지낟.
+//사용 예시
+//List<Member> resultList = entityManager.createNamedQuery("Member.findByUsername", Member.class)
+//                                  .setParameter("username", "회원1")
+//                                  .getResultList();
+//@NamedQuery(
+//        name = "Member.findByUsername"      //관리하기 쉽도록 엔티티이름을 앞에 주었다.
+//        , query = "select m from Member m where m.username = :username"
+//)
+//@NamedQueries({
+//        @NamedQuery(
+//                name = "Member.findByUsername"
+//                , query = "select m from Member m where m.username = :username"
+//        )
+//        , @NamedQuery(
+//                name = "Member.count"
+//                , query = "select count(m) from Member m"
+//        )
+//})
 public class Member extends BaseEntity {
     //@Id //테이블의 primary key와 매핑. 식별자 필드라고 함.
     //@Column(name = "ID")    //컬럼과 필드를 매핑. 해당 어노테이션 없으면 필드명을 사용해 컬럼명을 매핑함. 대소문자 구분하는 db 일 경우 명시해야함.
