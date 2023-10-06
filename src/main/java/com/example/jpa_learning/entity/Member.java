@@ -205,10 +205,10 @@ public class Member extends BaseEntity {
         //하지만, 관계를 member1 -> teamA 에서 member1 -> teamB로 변경한 후 영속성 컨텍스트가 살아있을 경우
         //teamA.getMembers() 호출 시 member1이 반환되는 문제점이 있다.
         if (this.team != null) {
-            this.team.getMembers().remove(this);
+//            this.team.getMembers().remove(this);
         }
         this.team = team;
-        team.getMembers().add(this);
+//        this.team.getMembers().add(this);
     }
 
     //@OneToOne
@@ -237,7 +237,7 @@ public class Member extends BaseEntity {
     //양방향 연관관계를 위한 편의 메소드 추간.
     public void addProduct(Product product) {
         this.products.add(product);
-        product.getMembers().add(this);
+//        product.getMembers().add(this);
     }
 
     //역방향. 다대다 양방향 연관관계 한계 극복을 위한 연결 엔티티 사용.

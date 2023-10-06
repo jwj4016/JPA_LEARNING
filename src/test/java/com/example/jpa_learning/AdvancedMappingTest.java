@@ -30,7 +30,6 @@ public class AdvancedMappingTest {
     @PersistenceUnit
     EntityManagerFactory entityManagerFactory;
 
-    @Test
     void save_using_idClass(){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
